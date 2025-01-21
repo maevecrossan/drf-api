@@ -40,7 +40,8 @@ SECRET_KEY = 'SECRET_KEY'
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    '8000-maevecrossan-drfapi-epo4cmcdtmt.ws.codeinstitute-ide.net',]
+    '8000-maevecrossan-drfapi-epo4cmcdtmt.ws.codeinstitute-ide.net',
+    ]
 
 
 # Application definition
