@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Profile
 from .serializers import ProfileSerializer
+from drf_api.permissions import IsOwnerOrReadOnly
 
 
 class ProfileList(APIView):
@@ -12,7 +13,9 @@ class ProfileList(APIView):
     def get(self, request):
         '''Returns list of profiles'''
         profiles = Profile.objects.all()  # 1. returned all the profiles.
-        serializer = ProfileSerializer(profiles, many=True)
+        serializer = ProfileSerializer(
+            profiles, many=True, context={'request': request}
+            )
         # 2. We serialized them.
         # many=true : serializing many profile instances
         return Response(serializer.data)
@@ -21,14 +24,16 @@ class ProfileList(APIView):
 
 class ProfileDetail(APIView):
     '''Returns singular profile'''
-    serializer_class = ProfileSerializer  
+    serializer_class = ProfileSerializer
     # Will render a form for us automatically
+    permission_classes = [IsOwnerOrReadOnly]
 
     def get_object(self, pk):
         '''tries to find profile by primary key,
         returns error if nonexistent'''
         try:
             profile = Profile.objects.get(pk=pk)
+            self.check_object_permissions(self.request, profile)
             return profile
         except Profile.DoesNotExist:
             raise Http404
@@ -36,13 +41,16 @@ class ProfileDetail(APIView):
     def get(self, request, pk):
         '''returns profile requested above'''
         profile = self.get_object(pk)
-        serializer = ProfileSerializer(profile)  # singular profile
-        return Respsonse(serializer.data)
+        serializer = ProfileSerializer(
+            profile, context={'request': request}
+            )  # singular profile retrieval
+        return Response(serializer.data)
 
     def put(self, request, pk):
         '''allows profile editing'''
         profile = self.get_object(pk)
-        serializer = ProfileSerializer(profile, data=request.data)
+        serializer = ProfileSerializer(
+            profile, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

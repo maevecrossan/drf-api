@@ -101,6 +101,10 @@ DATABASES = {
     }
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://8000-maevecrossan-drfapi-epo4cmcdtmt.ws.codeinstitute-ide.net"
+]
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

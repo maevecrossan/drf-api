@@ -8,6 +8,11 @@ from .models import Profile
 class ProfileSerializer(serializers.ModelSerializer):
     '''  '''
     owner = serializers.ReadOnlyField(source='ownder.username')
+    is_owner = serializers.SerializerMethodField()
+
+    def get_is_owner(self, obj):
+        request = self.context['request']
+        return request.user == obj.owner
 
     # id field is created automatically with (model.Model).
 
@@ -15,5 +20,5 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = [
             'id', 'owner', 'created_at', 'updated_at',
-            'name', 'content', 'image'
+            'name', 'content', 'image', 'is_owner'
         ]
