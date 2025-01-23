@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from posts.models import Post
 
-class PostSerializer(serializers.PostSerializer):
+
+class PostSerializer(serializers.ModelSerializer):
     ''' Serializes Profile Data from model '''
 
     owner = serializers.ReadOnlyField(source='owner.proile.username')
@@ -26,7 +27,7 @@ class PostSerializer(serializers.PostSerializer):
         return value
 
     def get_is_owner(self, obj):
-        '''Return data if requested in owner'''
+        '''Return data if requester = owner'''
         request = self.context['request']
         return request.user == obj.owner
 
@@ -34,6 +35,7 @@ class PostSerializer(serializers.PostSerializer):
         '''What fields to return from Post model'''
         model = Post
         fields = [
-            'id', 'owner', 'is_owner', 'profile_id', 'profile_image',
-            'created_at', 'updated_at', 'title', 'content', 'image', 'image_filter'
+            'id', 'owner', 'is_owner', 'profile_id',
+            'profile_image', 'created_at', 'updated_at',
+            'title', 'content', 'image', 'image_filter'
         ]
