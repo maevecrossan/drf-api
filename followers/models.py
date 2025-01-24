@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Follower(models.Model):
     '''
     Follower model, related to 'owner' and 'followed'.
