@@ -3,7 +3,9 @@ from posts.models import Post
 
 
 class PostSerializer(serializers.ModelSerializer):
-    ''' Serializes Profile Data from model '''
+    '''
+    Serializes Post Data from model
+    '''
 
     owner = serializers.ReadOnlyField(source='owner.proile.username')
     is_owner = serializers.SerializerMethodField()
@@ -27,12 +29,16 @@ class PostSerializer(serializers.ModelSerializer):
         return value
 
     def get_is_owner(self, obj):
-        '''Return data if requester = owner'''
+        '''
+        Return data if requester = owner
+        '''
         request = self.context['request']
         return request.user == obj.owner
 
     class Meta:
-        '''What fields to return from Post model'''
+        '''
+        What fields to return from Post model
+        '''
         model = Post
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
