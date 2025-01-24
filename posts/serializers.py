@@ -7,12 +7,13 @@ class PostSerializer(serializers.ModelSerializer):
     '''
     Serializes Post Data from model
     '''
-
     owner = serializers.ReadOnlyField(source='owner.proile.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.proile.id')
     profile_image = serializers.ReadOnlyField(source='owner.proile.image.url')
     like_id = serializers.SerializerMethodField()
+    comments_count = serializers.ReadOnlyField()
+    likes_count = serializers.ReadOnlyField()
 
     def validate_image(self, value):
         '''Check imported image dimensions'''
@@ -58,5 +59,5 @@ class PostSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'content', 'image', 'image_filter',
-            'like_id'
+            'like_id', 'comments_count', 'likes_count'
         ]
