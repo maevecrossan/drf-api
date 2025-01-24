@@ -7,7 +7,7 @@ class PostSerializer(serializers.ModelSerializer):
     '''
     Serializes Post Data from model
     '''
-    owner = serializers.ReadOnlyField(source='owner.proile.username')
+    owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.proile.id')
     profile_image = serializers.ReadOnlyField(source='owner.proile.image.url')
