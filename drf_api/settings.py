@@ -69,7 +69,7 @@ ALLOWED_HOSTS = [
    os.environ.get('ALLOWED_HOST'),
    '8000-maevecrossan-drfapi-epo4cmcdtmt.ws.codeinstitute-ide.net',
    'localhost',
-   'drf-test-3b810d58330a.herokuapp.com/',
+   'drf-test-3b810d58330a.herokuapp.com',
 ]
 
 
