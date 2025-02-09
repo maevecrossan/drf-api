@@ -14,9 +14,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     following_id = serializers.SerializerMethodField()
-    post_count = serializers.ReadOnlyField()
-    followers_count = serializers.IntegerField(default=0)
-    following_count = serializers.IntegerField(default=0)
+    post_count = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
+    following_count = serializers.SerializerMethodField()
 
     def get_is_owner(self, obj):
         '''
@@ -39,6 +39,14 @@ class ProfileSerializer(serializers.ModelSerializer):
             # print(following)
             return following.id if following else None
         return None
+
+    def get_followers_count(self, obj):
+        ''' Ensures followers_count is always an integer. '''
+        return obj.followers_count or 0  # If None, return 0
+
+    def get_following_count(self, obj):
+        ''' Ensures following_count is always an integer. '''
+        return obj.following_count or 0  # If None, return 0
 
     class Meta:
         model = Profile
